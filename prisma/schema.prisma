@@ -1,17 +1,10 @@
-// schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum userRole {
-  ADM
-  MEMBER
+  url      = env("DATABASE_URL") // Esta linha usa a variável de ambiente DATABASE_URL
 }
 
 // Modelo de Usuário
@@ -19,30 +12,27 @@ model User {
   id       String   @id @default(uuid())
   name     String
   email    String
-  role     userRole @default(MEMBER) @map("user_role")
   password String
   phone    String
   jobRole  String
-  // Relação com viagens do usuário
-  travels  Travel[]
+  travels  Travel[] // Um usuário pode ter várias viagens
 
   @@map("users")
 }
 
 // Modelo de Viagem
 model Travel {
-  id            String    @id @default(uuid())
-  reason        String?
-  startDate     DateTime  @default(now())
-  endDate       DateTime?
+  id            String   @id @default(uuid())
+  reason        String
+  traveler      String
+  startDate     DateTime @default(now())
+  endDate       DateTime
   destination   String
-  totalExpenses Float?    @default(0) // Gastos totais da viagem
+  totalExpenses Float    @default(0) // Gastos totais da viagem
+  authorId      String
 
-  // Chave estrangeira para associar a viagem ao usuário
-  employeeId String
-
-  // Relação com o usuário
-  employee User @relation(fields: [employeeId], references: [id])
+  // Campo que referencia o ID do usuário associado a esta viagem
+  author User @relation(fields: [authorId], references: [id])
 
   @@map("travels")
 }
