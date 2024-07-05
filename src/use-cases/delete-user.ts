@@ -19,5 +19,6 @@ export class DeleteUserUseCase {
 
         // Deleta o usuário do repositório
         await this.usersRepository.delete(userExist);
+        
     }
 }

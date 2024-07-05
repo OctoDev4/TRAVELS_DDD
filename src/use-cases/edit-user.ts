@@ -1,6 +1,7 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { User } from "@prisma/client";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
+import { hash } from "bcrypt";
 
 interface EditUserRequest {
     id: string;
@@ -42,7 +43,9 @@ export class EditUserUseCase {
             userExists.email = email;
         }
         if (password !== undefined) {
-            userExists.password = password;
+            // Hash da nova senha usando bcrypt
+            const hashedPassword = await hash(password, 10); // 10 é o número de rounds de hash (custo computacional)
+            userExists.password = hashedPassword;
         }
         if (phone !== undefined) {
             userExists.phone = phone;
