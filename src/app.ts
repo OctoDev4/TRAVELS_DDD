@@ -3,6 +3,9 @@ import fastifyJwt from "@fastify/jwt";
 import {env} from "@/env";
 import fastifyCookie from "@fastify/cookie";
 import {ZodError} from "zod";
+import fastifyCors from "@fastify/cors";
+import {userRoutes} from "@/http/controllers/users/routes";
+
 
 export const app = fastify()
 
@@ -19,8 +22,18 @@ app.register(
     }
 
 )
+app.register(userRoutes
+)
 
 app.register(fastifyCookie)
+
+
+app.register(fastifyCors, {
+    origin: '*', // Define a origem permitida. '*' permite todas as origens.
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
+});
+
 
 
 app.setErrorHandler((error, _, reply) => {

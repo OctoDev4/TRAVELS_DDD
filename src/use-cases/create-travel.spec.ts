@@ -51,9 +51,6 @@ describe('create a travel Use case',()=>{
 
         expect(inMemoryTravelsRepository.items).toHaveLength(1)
 
-        console.log(travelCreated)
-
-
     })
 
 })

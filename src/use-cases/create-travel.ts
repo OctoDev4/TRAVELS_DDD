@@ -41,9 +41,6 @@ export class CreateTravelUseCase {
             throw new NotAllowedError()
         }
 
-        const formattedStartDate = dayjs(startDate).format("DD/MM/YYYY"); // Formata a data de início para o formato brasileiro
-        const formattedEndDate = dayjs(endDate).format("DD/MM/YYYY"); // Formata a data de término para o formato brasileiro
-
         const newTravel = {
             reason,
             traveler,

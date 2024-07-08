@@ -35,7 +35,7 @@ describe('authenticate use case ',()=>{
             jobRole:'cargo'
         })
 
-        console.log(createdUser.password)
+
 
         const {user} = await sud.execute({
             email:createdUser.email,
